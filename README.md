@@ -1,3 +1,3 @@
-# AdventOfCode21
+# AdventOfCode
 
 Advent of Code Repository
