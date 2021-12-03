@@ -5,7 +5,6 @@
 --
 ----------------------
 import System.IO
-import Data.List
 
 main :: IO ()
 main = do
