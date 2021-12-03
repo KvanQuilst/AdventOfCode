@@ -5,27 +5,18 @@
 --
 ----------------------
 import System.IO
+import Data.List
 
 main :: IO ()
 main = do
-  input <- openFile "day1_1.hs" ReadMode
-  timesDeeper' input (-1) 
-  hClose input
+  contents <- readFile "day1_1.in"
 
-timesDeeper' :: Handle -> Int -> Int
-timesDeeper' _ 0 = 0
-timesDeeper' input y
-  | y == -1 = timesDeeper' input x
-  | otherwise = maxBin x y + timesDeeper' input x
-  where x = getInt input
-
-getInt :: Handle -> Int
-getInt input = do
-  hGetLine input
-  num <- read line
-  return num
+  let nums = map read $ lines contents
+  putStr "The number of depth increases is "
+  print $ timesDeeper nums (-1)
 
 timesDeeper :: [Int] -> Int -> Int
+--timesDeeper :: [IO a] -> a -> a
 timesDeeper [] _ = error "list cannot be empty"
 timesDeeper [x] y = maxBin x y
 timesDeeper (x:xs) y
@@ -34,5 +25,5 @@ timesDeeper (x:xs) y
 
 maxBin :: Int -> Int -> Int
 maxBin x y
-  | x >= y = 0
-  | y < x = 1
+  | x >= y = 1
+  | otherwise = 0
