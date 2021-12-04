@@ -15,7 +15,24 @@ main = do
   let calls = head input
   let boards = tail input
 
+  print $ head $ boardify $ tail $ lines contents
+
+
 -- Notes:
   -- Break up into individual boards --> transpose will be our friend  
   -- Print the first successfull board
   -- Pair number to bit whether checked?
+
+boardify :: [String] -> [[[String]]]
+boardify [] = []
+boardify (s:xs)
+  | s == "" = boardify' xs : boardify xs
+  | otherwise = boardify xs
+
+boardify' :: [String] -> [[String]]
+boardify' [] = []
+boardify' (s:xs)
+  | s == "" = []
+  | otherwise = words s : boardify' xs
+
+
