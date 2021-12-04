@@ -15,7 +15,8 @@ main = do
   let calls = head input
   let boards = tail input
 
-  print $ head $ boardify $ tail $ lines contents
+  --print $ mark''' (boardify $ tail $ lines contents) "57"
+  print $ check $ [["-1", "-1", "2"],["2", "0", "1"],["-1","-1","-1"]]
 
 
 -- Notes:
@@ -36,3 +37,10 @@ boardify' (s:xs)
   | otherwise = words s : boardify' xs
 
 
+mark :: [[[String]]] -> String -> [[[String]]]
+mark s x = [[[if y == x then "-1" else y | y <- sss] | sss <- ss] | ss <- s]
+
+
+check :: [[String]] -> Bool
+check [] = False
+check (s:xs) = if all (==("-1")) s then True else check xs
