@@ -12,17 +12,25 @@ main = do
   contents <- readFile "day4.in"
 
   let input = lines contents
-  let calls = head input
-  let boards = tail input
+  let calls = words $ map (\c -> if c == ',' then ' ' else c) $ head input
 
-  --print $ mark''' (boardify $ tail $ lines contents) "57"
-  print $ check $ [["-1", "-1", "2"],["2", "0", "1"],["-1","-1","-1"]]
+  --print $ mark (boardify $ tail $ lines contents) "57"
+  print $ mul $ bingo calls (boardify $ tail input)
+
+mul :: ([[String]], String) -> Int
+--mul p = sum (map sum (filter (/=(-1)) (map read b))) * x
+mul p = (sum $ map sum $ map (filter (/=(-1))) [[read c | c <- s] | s <- b]) * (read x)
+  where b = fst p
+        x = snd p
 
 
--- Notes:
-  -- Break up into individual boards --> transpose will be our friend  
-  -- Print the first successfull board
-  -- Pair number to bit whether checked?
+bingo :: [String] -> [[[String]]] -> ([[String]], String)
+bingo c b = if i then(head $ filter check m, (head c)) 
+  else if j then (head $ filter check $ transpose m, (head c)) else bingo (tail c) m
+  where m = mark b $ head c
+        i = (any (==True) (map check m)) 
+        j = (any (==True) (map check $ transpose m))
+
 
 boardify :: [String] -> [[[String]]]
 boardify [] = []
