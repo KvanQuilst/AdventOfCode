@@ -18,15 +18,16 @@ main = do
   print $ mul $ bingo calls (boardify $ tail input)
 
 mul :: ([[String]], String) -> Int
---mul p = sum (map sum (filter (/=(-1)) (map read b))) * x
 mul p = (sum $ map sum $ map (filter (/=(-1))) [[read c | c <- s] | s <- b]) * (read x)
   where b = fst p
         x = snd p
 
 
 bingo :: [String] -> [[[String]]] -> ([[String]], String)
-bingo c b = if i then(head $ filter check m, (head c)) 
-  else if j then (head $ filter check $ transpose m, (head c)) else bingo (tail c) m
+bingo c b
+  | i = (head $ filter check m, head c)
+  | j = (head $ filter check $ transpose m, head c)
+  | otherwise = bingo (tail c) m
   where m = mark b $ head c
         i = (any (==True) (map check m)) 
         j = (any (==True) (map check $ transpose m))
