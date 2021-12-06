@@ -1,7 +1,7 @@
 ----------------------
 --
--- Advent of Code - Day 1
--- Binary Diagnostic
+-- Advent of Code - Day 4
+-- Bingo
 --
 ----------------------
 import System.IO
