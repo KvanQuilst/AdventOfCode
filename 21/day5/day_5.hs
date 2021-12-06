@@ -10,7 +10,8 @@ import Data.List
 main :: IO ()
 main = do
   contents <- readFile "day5.in"
-  print $ uniq $ normal $ ends $ lines contents
+  let endpoints = ends $ lines contents
+  print $ uniq $ normal endpoints ++ diag endpoints
 
 ends :: [String] -> [((Int, Int), (Int, Int))]
 ends [] = []
@@ -29,6 +30,25 @@ normal (p:ps)
         x2 = fst $ snd p
         y1 = snd $ fst p
         y2 = snd $ snd p
+
+diag :: [((Int, Int), (Int, Int))] -> [(Int, Int)]
+diag [] = []
+diag (p:ps)
+  | abs (x2-x1) == abs (y2-y1) = (diag' x1 x2 y1 y2) ++ diag ps
+  | otherwise = diag ps
+  where x1 = fst $ fst p
+        x2 = fst $ snd p
+        y1 = snd $ fst p
+        y2 = snd $ snd p
+
+diag' :: Int -> Int -> Int -> Int -> [(Int, Int)]
+diag' w x y z
+  | (w < x) && (y < z) = zip [w..x] [y..z]
+  | (w < x) && (y > z) = zip [w..x] (reverse [z..y])
+  | (w > x) && (y < z) = zip (reverse [x..w]) [y..z]
+  | (w > x) && (y > z) = zip (reverse [x..w]) (reverse [z..y])
+  | otherwise = []
+
 
 uniq :: [(Int, Int)] -> Int
 uniq [] = 0
