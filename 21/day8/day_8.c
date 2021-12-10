@@ -317,11 +317,9 @@ void decode (void)
         number[i] = number[i] == 0 ? '3' : number[i];
       }
     }
-    //printf ("%s\n", number);
 
     // Add to sum
     sum += atoi(number);
-
   }
   
   printf ("The sum is %ld\n", sum);
