@@ -17,7 +17,7 @@ int flash(int octo[10][10], int i, int j);
 
 int main (void)
 {
-  flashes(100);
+  flashes(1000);
 }
 
 void flashes(int steps)
@@ -27,7 +27,7 @@ void flashes(int steps)
   size_t len;
 
   int octo[10][10];
-  int i, j, k, flashes;
+  int i, j, k, flashes, sync, print;
 
   day11 = fopen("day11.in", "r");
   if (day11 == NULL) {
@@ -47,7 +47,7 @@ void flashes(int steps)
     }
   }
 
-  flashes = 0;
+  flashes = 0; print = 0;
   for (k = 0; k < steps; k++) {
    
     // increment by 1
@@ -67,16 +67,20 @@ void flashes(int steps)
     }
 
     // reset flashes to 0
+    sync = 1;
     for (i = 0; i < 10; i++) {
       for (j = 0; j < 10; j++) {
         if (octo[i][j] == -1) {
           octo[i][j] = 0;
+        } else {
+          sync = 0;
         }
-  //      printf("%d ", octo[i][j]);
       }
-   //   printf("\n");
     }
-    //printf("\n");
+    if (print == 0 && sync == 1) {
+      print = 1;
+      printf("The first sync step is %d\n", k+1);
+    }
   }
 
   printf("The total number of flashes in %d steps is %d\n", steps, flashes);
@@ -93,7 +97,6 @@ int flash(int octo[10][10], int i, int j)
     return 0;
   }
   octo[i][j] = -1;
-          printf ("(%d, %d)\n", i, j);
   sum++;
 
   if (i > 0) {
