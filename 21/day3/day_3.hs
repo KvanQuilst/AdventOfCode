@@ -1,6 +1,6 @@
 ----------------------
 --
--- Advent of Code - Day 1
+-- Advent of Code - Day 3
 -- Binary Diagnostic
 --
 ----------------------
