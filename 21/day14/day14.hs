@@ -1,7 +1,7 @@
 ----------------------
 --
--- Advent of Code - Day 13
--- Transparent Origami
+-- Advent of Code - Day 14
+-- Exetended Polymerization
 --
 ----------------------
 import System.IO
