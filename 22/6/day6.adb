@@ -56,7 +56,6 @@ procedure Day6 is
         Unique := Unique - Idx;
       end if;
       Msg (Unique) := C; Unique := Unique + 1;
-      Put_Line (Msg);
 
       if Unique = 15 then
         Close (F); return Count;
