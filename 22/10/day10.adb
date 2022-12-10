@@ -48,50 +48,46 @@ procedure Day10 is
     Op : Integer;
     Pos : Integer;
     Line : Natural := 1;
+
+    State : Boolean := False;
   begin
     Open (F, In_File, File_Name);
 
     while not End_Of_File (F) loop
-      Get (F, Instr);
 
-      if Instr = "noop" then
-        Cycle := Cycle + 1;
-        Pos := Cycle mod 40;
-        if Pos = X - 1 or Pos = X or Pos = X + 1 then
-          Put ("#");
-        else
-          Put (".");
-        end if;
-        if Cycle mod 40 = 0 then
-          Put_Line ("");
-          Line := Line + 1;
-        end if;
+      case State is
+        when False => 
+          Get (F, Instr);
 
-        if Line = 7 then
-          exit;
-        end if;
-
-      elsif Instr = "addx" then
-        Int_IO.Get (F, Op);
-        for I in 1 .. 2 loop
+          if Instr = "noop" then
+            Cycle := Cycle + 1;
+          elsif Instr = "addx" then
+            Int_IO.Get (F, Op);
+            State := True;
+            Cycle := Cycle + 1;
+          end if;
+        when True =>
+          State := False;
           Cycle := Cycle + 1;
-          Pos := Cycle mod 40;
-          if Pos = X - 1 or Pos = X or Pos = X + 1 then
-            Put ("#");
-          else
-            Put (".");
-          end if;
-          if Cycle mod 40 = 0 then
-            Put_Line ("");
-            Line := Line + 1;
-          end if;
+          X := X + Op;
+      end Case;
 
-          if Line = 7 then
-            exit;
-          end if;
-        end loop;
-        X := X + Op;
+      Pos := Cycle mod 40;
+      if Pos = X - 1 or Pos = X or Pos = X + 1 then
+        Put ("#");
+      else
+        Put (".");
       end if;
+
+      if Pos = 0 then
+        Put_Line ("");
+        Line := Line + 1;
+      end if;
+
+      if Line = 7 then
+        exit;
+      end if;
+
     end loop;
     Close (F);
   end Render_Sprite;
