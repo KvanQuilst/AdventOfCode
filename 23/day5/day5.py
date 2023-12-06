@@ -1,19 +1,31 @@
 def part1():
     print("Advent of Code 2023, Day 5.1")
 
-    with open("day5_test.in", 'r') as file:
+    with open("day5.in", 'r') as file:
         lines = file.readlines()
 
         seeds = [int(s) for s in lines[0].split(":")[1].split()]
-        map = [(x, x, x, x, x, x, x, x) for x in seeds]
+        m = [[x, x, x, x, x, x, x, x] for x in seeds]
 
         l = 3
         for i in range(1, 8):
-            while not lines[l].isspace():
-                range = lines[l].split()     
-                map = map(lambda m : range[0] + (m[i] - range[1]) if m[i] in range(range[1], range[1]+range[2] else m[i], map)
+            f = []
+            t = []
+            while l < len(lines) and not lines[l].isspace():
+                r_val = [int(s) for s in lines[l].split()]
+                f += [x for x in range(r_val[1], r_val[1] + r_val[2])]
+                t += [x for x in range(r_val[0], r_val[0] + r_val[2])]
                 l += 1
-            l += 1
+
+            for s in m:
+                if s[i] in f:
+                    s[i:] = [t[f.index(s[i])] for x in range(i,8)]
+                
+            l += 2
+
+        minimum = min([x[7] for x in m])
+
+        print("The minimum locality value is", minimum)
 
 
 def part2():
